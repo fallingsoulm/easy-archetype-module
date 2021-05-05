@@ -57,7 +57,7 @@
 		<repository>
 			<id>github</id>
 			<name>github</name>
-			<url>https://maven.pkg.github.com/luyanan0718/easy-archetype-module</url>
+			<url>https://maven.pkg.github.com/fallingsoulm/easy-archetype-module</url>
 			<releases>
 			</releases>
 		</repository>
@@ -67,7 +67,7 @@
 <!--        <repository>-->
 <!--            <id>github</id>-->
 <!--            <name>GitHub OWNER Apache Maven Packages</name>-->
-<!--            <url>https://maven.pkg.github.com/luyanan0718/easy-archetype-module</url>-->
+<!--            <url>https://maven.pkg.github.com/fallingsoulm/easy-archetype-module</url>-->
 <!--        </repository>-->
 <!--    </distributionManagement>-->
 <!--    <licenses>-->
@@ -78,12 +78,12 @@
 <!--        </license>-->
 <!--    </licenses>-->
 <!--    <scm>-->
-<!--        <url>https://github.com/luyanan0718/easy-archetype-module</url>-->
+<!--        <url>https://github.com/fallingsoulm/easy-archetype-module</url>-->
 <!--        <connection>-->
-<!--            scm:git:git://github.com/luyanan0718/easy-archetype-module.git-->
+<!--            scm:git:git://github.com/fallingsoulm/easy-archetype-module.git-->
 <!--        </connection>-->
 <!--        <developerConnection>-->
-<!--            scm:git:ssh://git@github.com/luyanan0718/easy-archetype-module.git-->
+<!--            scm:git:ssh://git@github.com/fallingsoulm/easy-archetype-module.git-->
 <!--        </developerConnection>-->
 <!--        <tag>HEAD</tag>-->
 <!--    </scm>-->

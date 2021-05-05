@@ -254,7 +254,7 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub OWNER Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/luyanan0718/easy-archetype-module</url>
+			<url>https://maven.pkg.github.com/fallingsoulm/easy-archetype-module</url>
 		</repository>
 	</distributionManagement>
 	<licenses>
@@ -266,9 +266,9 @@
 	</licenses>
 	<scm>
 		<!--        git项目地址可以用SSH  也可以用 HTTPS的-->
-		<connection>scm:git:https://github.com/luyanan0718/easy-archetype-module.git</connection>
+		<connection>scm:git:https://github.com/fallingsoulm/easy-archetype-module.git</connection>
 		<!--        #git项目地址可以用SSH 也可以用 HTTPS的-->
-		<developerConnection>scm:git:git@github.com:luyanan0718/easy-archetype-module.git</developerConnection>
+		<developerConnection>scm:git:git@github.com:fallingsoulm/easy-archetype-module.git</developerConnection>
 	</scm>
 	<developers>
 		<developer>
