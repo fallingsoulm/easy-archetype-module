@@ -43,7 +43,7 @@ jobs:
       #         mvn versions:commit
       - name: maven update version
         run: |
-#          mvn versions:set
+          mvn versions:set
  #         mvn versions:commit
       - name: maven deploy
         run: |
