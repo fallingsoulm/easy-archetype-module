@@ -1,2 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.luyanan0718.easy.archetype.framework.config.EasyArchetypeFrameworkAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.fallingsoulm.easy.archetype.framework.config.EasyArchetypeFrameworkAutoConfiguration
 

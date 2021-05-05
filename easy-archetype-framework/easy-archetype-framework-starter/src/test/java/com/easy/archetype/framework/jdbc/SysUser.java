@@ -1,7 +1,7 @@
-package io.github.luyanan0718.easy.archetype.framework.jdbc;
+package io.github.fallingsoulm.easy.archetype.framework.jdbc;
 
-import io.github.luyanan0718.easy.archetype.framework.jdbc.annotation.TableField;
-import io.github.luyanan0718.easy.archetype.framework.jdbc.annotation.TableId;
+import io.github.fallingsoulm.easy.archetype.framework.jdbc.annotation.TableField;
+import io.github.fallingsoulm.easy.archetype.framework.jdbc.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

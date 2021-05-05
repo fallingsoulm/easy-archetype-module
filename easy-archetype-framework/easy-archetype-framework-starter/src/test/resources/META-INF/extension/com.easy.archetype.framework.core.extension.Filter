@@ -1,3 +1,3 @@
-xxs=io.github.luyanan0718.easy.archetype.framework.core.extension.XxsFilter
-activate=io.github.luyanan0718.easy.archetype.framework.core.extension.ActivateFilter
-adaptiveFilter=io.github.luyanan0718.easy.archetype.framework.core.extension.AdaptiveFilter
+xxs=io.github.fallingsoulm.easy.archetype.framework.core.extension.XxsFilter
+activate=io.github.fallingsoulm.easy.archetype.framework.core.extension.ActivateFilter
+adaptiveFilter=io.github.fallingsoulm.easy.archetype.framework.core.extension.AdaptiveFilter

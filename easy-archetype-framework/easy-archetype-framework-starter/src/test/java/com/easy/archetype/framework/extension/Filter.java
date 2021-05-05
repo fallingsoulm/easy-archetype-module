@@ -1,6 +1,6 @@
-package io.github.luyanan0718.easy.archetype.framework.extension;
+package io.github.fallingsoulm.easy.archetype.framework.extension;
 
-import io.github.luyanan0718.easy.archetype.framework.extension.annotation.SPI;
+import io.github.fallingsoulm.easy.archetype.framework.extension.annotation.SPI;
 
 /**
  * 过滤器

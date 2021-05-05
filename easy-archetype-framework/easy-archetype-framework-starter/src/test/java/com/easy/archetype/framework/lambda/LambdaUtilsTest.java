@@ -1,4 +1,4 @@
-package io.github.luyanan0718.easy.archetype.framework.lambda;
+package io.github.fallingsoulm.easy.archetype.framework.lambda;
 
 import lombok.Data;
 import org.junit.jupiter.api.Test;

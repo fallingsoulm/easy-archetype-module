@@ -1,9 +1,9 @@
 package com.example;
 
-import io.github.luyanan0718.easy.archetype.data.file.annotation.EnableFileServer;
-import io.github.luyanan0718.easy.archetype.data.file.server.FileServerProperties;
-import io.github.luyanan0718.easy.archetype.data.file.server.IFileStorageStrategy;
-import io.github.luyanan0718.easy.archetype.data.file.server.storagestrategy.MinioFileStorageStrategy;
+import io.github.fallingsoulm.easy.archetype.data.file.annotation.EnableFileServer;
+import io.github.fallingsoulm.easy.archetype.data.file.server.FileServerProperties;
+import io.github.fallingsoulm.easy.archetype.data.file.server.IFileStorageStrategy;
+import io.github.fallingsoulm.easy.archetype.data.file.server.storagestrategy.MinioFileStorageStrategy;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

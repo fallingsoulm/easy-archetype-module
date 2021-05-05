@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>easy-archetype-module</artifactId>
-		<groupId>io.github.luyanan0718.easy.archetype</groupId>
+		<groupId>io.github.fallingsoulm.easy.archetype</groupId>
 		<version>1.1.5-SNAPSHOT</version>
 	</parent>
-    <groupId>io.github.luyanan0718.easy.archetype</groupId>
+    <groupId>io.github.fallingsoulm.easy.archetype</groupId>
     <artifactId>easy-archetype-dependencies</artifactId>
     <packaging>pom</packaging>
 <!--    <version>1.1-SNAPSHOT</version>-->
@@ -16,36 +16,36 @@
         <dependencies>
             <!--自定义组件 -->
             <dependency>
-                <groupId>io.github.luyanan0718.easy.archetype.job</groupId>
+                <groupId>io.github.fallingsoulm.easy.archetype.job</groupId>
                 <artifactId>easy-archetype-job-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.luyanan0718.easy.archetype.security</groupId>
+                <groupId>io.github.fallingsoulm.easy.archetype.security</groupId>
                 <artifactId>easy-archetype-security-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.luyanan0718.easy.archetype.security.core</groupId>
+                <groupId>io.github.fallingsoulm.easy.archetype.security.core</groupId>
                 <artifactId>easy-archetype-security-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
 
             <dependency>
-                <groupId>io.github.luyanan0718.easy.archetype.data</groupId>
+                <groupId>io.github.fallingsoulm.easy.archetype.data</groupId>
                 <artifactId>easy-archetype-data-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.github.luyanan0718.easy.archetype.generate</groupId>
+                <groupId>io.github.fallingsoulm.easy.archetype.generate</groupId>
                 <artifactId>easy-archetype-generate</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.github.luyanan0718.easy.archetype.framework</groupId>
+                <groupId>io.github.fallingsoulm.easy.archetype.framework</groupId>
                 <artifactId>easy-archetype-framework-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>

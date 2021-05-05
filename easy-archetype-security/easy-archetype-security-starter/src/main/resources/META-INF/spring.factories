@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.luyanan0718.easy.archetype.security.validatecode.ValidateCodeAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.fallingsoulm.easy.archetype.security.validatecode.ValidateCodeAutoConfiguration

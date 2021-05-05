@@ -1,6 +1,6 @@
-package io.github.luyanan0718.easy.archetype.framework.extension;
+package io.github.fallingsoulm.easy.archetype.framework.extension;
 
-import io.github.luyanan0718.easy.archetype.framework.extension.annotation.Adaptive;
+import io.github.fallingsoulm.easy.archetype.framework.extension.annotation.Adaptive;
 
 /**
  * 自适应扩展点

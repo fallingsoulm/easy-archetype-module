@@ -3,7 +3,7 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>easy-archetype-job</artifactId>
-		<groupId>io.github.luyanan0718.easy.archetype.job</groupId>
+		<groupId>io.github.fallingsoulm.easy.archetype.job</groupId>
 		<version>1.1.5-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -14,7 +14,7 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>io.github.luyanan0718.easy.archetype.security.core</groupId>
+			<groupId>io.github.fallingsoulm.easy.archetype.security.core</groupId>
 			<artifactId>easy-archetype-security-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
@@ -25,7 +25,7 @@
 			<artifactId>spring-boot-starter-quartz</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.github.luyanan0718.easy.archetype.framework</groupId>
+			<groupId>io.github.fallingsoulm.easy.archetype.framework</groupId>
 			<artifactId>easy-archetype-framework-starter</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

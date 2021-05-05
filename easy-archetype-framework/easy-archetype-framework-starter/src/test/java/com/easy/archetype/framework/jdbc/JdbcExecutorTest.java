@@ -1,7 +1,7 @@
-package io.github.luyanan0718.easy.archetype.framework.jdbc;
+package io.github.fallingsoulm.easy.archetype.framework.jdbc;
 
 import cn.hutool.core.lang.Assert;
-import io.github.luyanan0718.easy.archetype.framework.page.PageInfo;
+import io.github.fallingsoulm.easy.archetype.framework.page.PageInfo;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

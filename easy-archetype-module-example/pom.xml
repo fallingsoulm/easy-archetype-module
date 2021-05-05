@@ -16,7 +16,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>io.github.luyanan0718.easy.archetype.job</groupId>
+			<groupId>io.github.fallingsoulm.easy.archetype.job</groupId>
 			<artifactId>easy-archetype-job-starter</artifactId>
 		</dependency>
 
@@ -54,11 +54,11 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.github.luyanan0718.easy.archetype.framework</groupId>
+			<groupId>io.github.fallingsoulm.easy.archetype.framework</groupId>
 			<artifactId>easy-archetype-framework-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.github.luyanan0718.easy.archetype.data</groupId>
+			<groupId>io.github.fallingsoulm.easy.archetype.data</groupId>
 			<artifactId>easy-archetype-data-starter</artifactId>
 		</dependency>
 
@@ -82,7 +82,7 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>io.github.luyanan0718.easy.archetype</groupId>
+				<groupId>io.github.fallingsoulm.easy.archetype</groupId>
 				<artifactId>easy-archetype-dependencies</artifactId>
 				<version>${easy-archetype-dependencies.version}</version>
 				<type>pom</type>
