@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>easy-archetype-module</artifactId>
 		<groupId>io.github.fallingsoulm.easy.archetype</groupId>
-		<version>1.1.5-SNAPSHOT</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
     <groupId>io.github.fallingsoulm.easy.archetype</groupId>
     <artifactId>easy-archetype-dependencies</artifactId>
