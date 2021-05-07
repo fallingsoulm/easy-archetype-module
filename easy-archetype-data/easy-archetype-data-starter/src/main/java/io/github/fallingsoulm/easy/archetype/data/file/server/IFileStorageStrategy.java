@@ -4,6 +4,7 @@ import cn.hutool.core.io.IoUtil;
 import io.github.fallingsoulm.easy.archetype.data.file.FileInfo;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * 文件存储策略
@@ -35,4 +36,12 @@ public interface IFileStorageStrategy {
 	 */
 	boolean removeFile(String path);
 
+	/**
+	 * 列出当前目录下的所有文件
+	 *
+	 * @param dir 目录
+	 * @return java.util.List<java.lang.String>
+	 * @since 2021/5/7
+	 */
+	List<String> loopFiles(String dir);
 }

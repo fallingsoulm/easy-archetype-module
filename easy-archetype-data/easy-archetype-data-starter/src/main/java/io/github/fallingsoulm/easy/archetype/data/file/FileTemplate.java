@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -119,5 +120,18 @@ public class FileTemplate {
 	 */
 	public boolean removeFile(String path) {
 		return fileService.removeFile(path);
+	}
+
+
+	/**
+	 * 列出该目录下的所有文件
+	 *
+	 * @param dir
+	 * @return java.util.List<java.lang.String>
+	 * @since 2021/5/7
+	 */
+	public List<String> loopFiles(String dir) {
+
+		return fileService.loopFiles(dir);
 	}
 }

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * 利用Feign进行文件传输
@@ -57,5 +58,11 @@ public class FeignFileTransport implements IFileTransport {
 	@Override
 	public boolean removeFile(String path) {
 		return Boolean.valueOf(this.fileFeignApi.removeFile(path).getData().toString());
+	}
+
+	@Override
+	public List<String> loopFiles(String dir) {
+		return fileFeignApi.loopFiles(dir).getData();
+
 	}
 }

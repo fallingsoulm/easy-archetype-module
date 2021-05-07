@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 通过http 进行文件传输
@@ -60,5 +62,14 @@ public class HttpFileTransport implements IFileTransport {
 		String result = HttpUtil.get(url);
 		String resultParser = resultParser(result);
 		return Boolean.valueOf(resultParser);
+	}
+
+	@Override
+	public List<String> loopFiles(String dir) {
+		String url = fileClientProperties.getServerHost() + "/file/loopFiles";
+		Map<String, Object> params = new HashMap<>();
+		params.put("dir", dir);
+		String post = HttpUtil.post(url, dir);
+		return JSON.parseArray(post, String.class);
 	}
 }

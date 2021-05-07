@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * Ftp文件存储
@@ -46,5 +47,10 @@ public class FtpFileStorageStrategy implements IFileStorageStrategy {
 	@Override
 	public boolean removeFile(String path) {
 		return ftpClient.delFile(path);
+	}
+
+	@Override
+	public List<String> loopFiles(String dir) {
+		return ftpClient.ls(dir);
 	}
 }

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * 文件Feign接口
  *
@@ -40,4 +42,14 @@ public interface FileFeignApi {
 	 */
 	@GetMapping("remove/{path}")
 	RespEntity removeFile(@PathVariable("path") String path);
+
+	/**
+	 * 列出目录下的所有文件
+	 *
+	 * @param dir 目录
+	 * @return java.util.List<java.lang.String>
+	 * @since 2021/5/7
+	 */
+	@PostMapping("loopFiles")
+	RespEntity<List<String>> loopFiles(String dir);
 }
