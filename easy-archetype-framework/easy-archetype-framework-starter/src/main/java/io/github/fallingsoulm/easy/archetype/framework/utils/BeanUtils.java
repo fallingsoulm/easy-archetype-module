@@ -1,5 +1,11 @@
 package io.github.fallingsoulm.easy.archetype.framework.utils;
 
+import cn.hutool.core.collection.CollectionUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * 对象复制工具类
  *
@@ -23,5 +29,21 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
 		return t;
 	}
 
+
+	/**
+	 * List集合复制
+	 *
+	 * @param targetClass
+	 * @return java.util.List<T>
+	 * @since 2021/5/7
+	 */
+	public static <T> List<T> copyList(List<Object> sources, Class<T> targetClass) {
+		if (CollectionUtil.isEmpty(sources)) {
+			return new ArrayList<>();
+		}
+		return sources
+				.stream()
+				.map(s -> copyProperties(s, targetClass)).collect(Collectors.toList());
+	}
 
 }
