@@ -23,7 +23,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
 	 * @return T
 	 * @since 2021/2/12
 	 */
-	public static <T> T copyProperties(Object source, Class<T> targetClass) {
+	public static <T,D> T copyProperties(D source, Class<T> targetClass) {
 		T t = instantiateClass(targetClass);
 		BeanUtils.copyProperties(source, t);
 		return t;
@@ -37,7 +37,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
 	 * @return java.util.List<T>
 	 * @since 2021/5/7
 	 */
-	public static <T> List<T> copyList(List<Object> sources, Class<T> targetClass) {
+	public static <T,D> List<T> copyList(List<D> sources, Class<T> targetClass) {
 		if (CollectionUtil.isEmpty(sources)) {
 			return new ArrayList<>();
 		}
