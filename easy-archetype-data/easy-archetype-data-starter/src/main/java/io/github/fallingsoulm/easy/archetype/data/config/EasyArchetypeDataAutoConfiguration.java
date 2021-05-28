@@ -5,8 +5,11 @@ import io.github.fallingsoulm.easy.archetype.data.configcenter.ConfigCenterAutoC
 import io.github.fallingsoulm.easy.archetype.data.logger.LoggerAutoConfiguration;
 import io.github.fallingsoulm.easy.archetype.data.mybatisplus.MybatisPlusConfiguration;
 import io.github.fallingsoulm.easy.archetype.data.redis.RedisAutoConfiguration;
+import io.github.fallingsoulm.easy.archetype.data.redis.RedisKeyGenerator;
+import io.github.fallingsoulm.easy.archetype.data.redis.SimpleRedisKeyGenerate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -28,4 +31,10 @@ import org.springframework.context.annotation.Import;
 		RedisAutoConfiguration.class
 })
 public class EasyArchetypeDataAutoConfiguration {
+
+
+	@Bean
+	public RedisKeyGenerator redisKeyGenerator() {
+		return new SimpleRedisKeyGenerate();
+	}
 }
