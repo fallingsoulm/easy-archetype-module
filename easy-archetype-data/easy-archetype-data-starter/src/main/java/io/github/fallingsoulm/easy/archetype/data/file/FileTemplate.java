@@ -1,5 +1,6 @@
 package io.github.fallingsoulm.easy.archetype.data.file;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import io.github.fallingsoulm.easy.archetype.framework.constant.Constants;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +8,7 @@ import lombok.SneakyThrows;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -52,6 +52,35 @@ public class FileTemplate {
 
 
 	/**
+	 * 给路径添加前缀
+	 *
+	 * @param paths
+	 * @return java.util.Map<java.lang.String, java.lang.String>
+	 * @since 2021/5/30
+	 */
+	public Map<String, String> addHost(List<String> paths) {
+		return Optional
+				.ofNullable(paths)
+				.filter(a -> CollectionUtil.isNotEmpty(a)).map(ps -> {
+					if (CollectionUtil.isEmpty(ps)) {
+						return new HashMap<>();
+					}
+					Map<String, String> pathMap = new HashMap<>(paths.size());
+					ps.forEach(p -> {
+						String absolutePath = null;
+						if (p.startsWith(Constants.HTTP) || p.startsWith(Constants.HTTPS)) {
+							absolutePath = p;
+						} else {
+							absolutePath = (fileProperties.getFileHost() + "/" + p).replace("/+", "/");
+						}
+						pathMap.put(p, absolutePath);
+					});
+					return pathMap;
+				}).orElse(new HashMap(0));
+	}
+
+
+	/**
 	 * 移除文件的host为相对路径(支持多个文件,多个文件路径用,隔开)
 	 *
 	 * @param path 文件全路径
@@ -69,6 +98,21 @@ public class FileTemplate {
 
 	}
 
+	public Map<String, String> removeHost(List<String> paths) {
+		return Optional
+				.ofNullable(paths)
+				.filter(a -> CollectionUtil.isNotEmpty(a)).map(ps -> {
+					if (CollectionUtil.isEmpty(ps)) {
+						return new HashMap<>();
+					}
+					Map<String, String> pathMap = new HashMap<>(paths.size());
+					ps.forEach(p -> {
+						String relativePath = p.replace(fileProperties.getFileHost(), "");
+						pathMap.put(p, relativePath);
+					});
+					return pathMap;
+				}).orElse(new HashMap(0));
+	}
 
 	/**
 	 * 文件上传
