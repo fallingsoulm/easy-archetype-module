@@ -1,5 +1,7 @@
 package io.github.fallingsoulm.easy.archetype.data.file.client;
 
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
+
 import java.io.InputStream;
 import java.util.List;
 
@@ -38,9 +40,9 @@ public interface IFileTransport {
 	/**
 	 * 列出目录下的所有文件
 	 *
-	 * @param dir 目录
+	 * @param fileFilterArgs 文件过滤参数
 	 * @return java.util.List<java.lang.String>
 	 * @since 2021/5/7
 	 */
-	List<String> loopFiles(String dir);
+	List<String> loopFiles(FileFilterArgs fileFilterArgs);
 }

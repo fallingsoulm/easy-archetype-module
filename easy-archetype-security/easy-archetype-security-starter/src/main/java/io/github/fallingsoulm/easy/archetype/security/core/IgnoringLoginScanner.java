@@ -6,6 +6,7 @@ import io.github.fallingsoulm.easy.archetype.security.security.SecurityPropertie
 import lombok.Getter;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.endpoint.web.servlet.ControllerEndpointHandlerMapping;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -33,7 +34,7 @@ public class IgnoringLoginScanner implements InitializingBean {
 	private Set<String> ignoringLoginUrl = new HashSet<>();
 
 	@Autowired
-	private RequestMappingHandlerMapping requestMappingHandlerMapping;
+	private ControllerEndpointHandlerMapping requestMappingHandlerMapping;
 
 
 	@Override

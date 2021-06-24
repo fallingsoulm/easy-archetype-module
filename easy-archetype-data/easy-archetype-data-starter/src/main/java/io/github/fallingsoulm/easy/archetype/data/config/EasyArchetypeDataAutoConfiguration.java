@@ -1,5 +1,6 @@
 package io.github.fallingsoulm.easy.archetype.data.config;
 
+import io.github.fallingsoulm.easy.archetype.data.cache.CacheAutoConfiguration;
 import io.github.fallingsoulm.easy.archetype.data.cache.RedisCacheAutoConfiguration;
 import io.github.fallingsoulm.easy.archetype.data.configcenter.ConfigCenterAutoConfiguration;
 import io.github.fallingsoulm.easy.archetype.data.logger.LoggerAutoConfiguration;
@@ -23,12 +24,12 @@ import org.springframework.context.annotation.Import;
 @EnableConfigurationProperties(EasyArchetypeDataProperties.class)
 @ConditionalOnProperty(prefix = EasyArchetypeDataProperties.PREFIX, name = "enable", havingValue = "true",
 		matchIfMissing = true)
-@Import({RedisCacheAutoConfiguration.class,
+@Import({
 		ConfigCenterAutoConfiguration.class,
 		LoggerAutoConfiguration.class,
 		ConfigCenterAutoConfiguration.class,
 		MybatisPlusConfiguration.class,
-		RedisAutoConfiguration.class
+		RedisAutoConfiguration.class, CacheAutoConfiguration.class
 })
 public class EasyArchetypeDataAutoConfiguration {
 

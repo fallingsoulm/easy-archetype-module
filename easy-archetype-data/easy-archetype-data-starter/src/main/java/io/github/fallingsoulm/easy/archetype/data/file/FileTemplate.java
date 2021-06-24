@@ -106,7 +106,7 @@ public class FileTemplate {
 						return new HashMap<>();
 					}
 					Map<String, String> pathMap = new HashMap<>(paths.size());
-					ps.forEach(p -> {
+					ps.stream().filter(a -> StrUtil.isNotBlank(a)).forEach(p -> {
 						String relativePath = p.replace(fileProperties.getFileHost(), "");
 						pathMap.put(p, relativePath);
 					});
@@ -170,12 +170,12 @@ public class FileTemplate {
 	/**
 	 * 列出该目录下的所有文件
 	 *
-	 * @param dir
+	 * @param fileFilterArgs 文件过滤参数
 	 * @return java.util.List<java.lang.String>
 	 * @since 2021/5/7
 	 */
-	public List<String> loopFiles(String dir) {
+	public List<String> loopFiles(FileFilterArgs fileFilterArgs) {
 
-		return fileService.loopFiles(dir);
+		return fileService.loopFiles(fileFilterArgs);
 	}
 }

@@ -19,7 +19,7 @@ public class RespEntity<T> implements Serializable {
 
 	private static final long serialVersionUID = 1996369589258128651L;
 
-	public static final String SUCCESS_STATUS = "200";
+	public static final int SUCCESS_STATUS = 200;
 
 	/**
 	 * <p>
@@ -28,7 +28,7 @@ public class RespEntity<T> implements Serializable {
 	 *
 	 * @since 2021/1/17
 	 */
-	private String status;
+	private int status;
 
 	/**
 	 * <p>
@@ -124,7 +124,7 @@ public class RespEntity<T> implements Serializable {
 	 * @since 2021/2/28
 	 */
 	public boolean isSuccess() {
-		return this.getStatus().equals(SUCCESS_STATUS);
+		return this.getStatus() == SUCCESS_STATUS;
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class RespEntity<T> implements Serializable {
 	 * @return io.github.fallingsoulm.easy.archetype.framework.core.RespEntity<T>
 	 * @since 2021/1/24
 	 */
-	public static <T> RespEntity<T> error(String status, Object... args) {
+	public static <T> RespEntity<T> error(int status, Object... args) {
 		return initErrorData(status, args);
 	}
 
@@ -173,7 +173,7 @@ public class RespEntity<T> implements Serializable {
 	 * @return void
 	 * @since 2021/2/28
 	 */
-	private static <T> RespEntity initSuccessData(T data, String status, Object... msg) {
+	private static <T> RespEntity initSuccessData(T data, int status, Object... msg) {
 		RespEntity<T> respEntity = new RespEntity();
 		respEntity.setData(data);
 		respEntity.setMsg(msg);
@@ -193,7 +193,7 @@ public class RespEntity<T> implements Serializable {
 	 * @return io.github.fallingsoulm.easy.archetype.framework.core.page.RespEntity<T>
 	 * @since 2021/2/28
 	 */
-	private static <T> RespEntity<T> initErrorData(String status, Object... msg) {
+	private static <T> RespEntity<T> initErrorData(int status, Object... msg) {
 		RespEntity<T> respEntity = new RespEntity();
 		respEntity.setMsg(msg);
 		respEntity.setStatus(status);

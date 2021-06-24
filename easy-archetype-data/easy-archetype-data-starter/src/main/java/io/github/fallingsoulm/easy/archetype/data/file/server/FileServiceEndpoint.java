@@ -1,11 +1,14 @@
 package io.github.fallingsoulm.easy.archetype.data.file.server;
 
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.framework.page.RespEntity;
 import io.github.fallingsoulm.easy.archetype.data.file.IFileService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 文件服务模块端点
@@ -49,5 +52,20 @@ public class FileServiceEndpoint {
 	public RespEntity removeFile(@PathVariable("path") String path) {
 		fileService.removeFile(path);
 		return RespEntity.success();
+	}
+
+
+	/**
+	 * 列出目录下的所有文件
+	 *
+	 * @param fileFilterArgs 文件过滤参数
+	 * @return java.util.List<java.lang.String>
+	 * @since 2021/5/7
+	 */
+	@PostMapping("loopFiles")
+	RespEntity<List<String>> loopFiles(@RequestBody FileFilterArgs fileFilterArgs) {
+
+		List<String> fileNames = fileService.loopFiles(fileFilterArgs);
+		return RespEntity.success(fileNames);
 	}
 }

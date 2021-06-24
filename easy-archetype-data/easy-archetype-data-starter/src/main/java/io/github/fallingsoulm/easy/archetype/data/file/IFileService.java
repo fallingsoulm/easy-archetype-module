@@ -37,10 +37,10 @@ public interface IFileService {
 	/**
 	 * 列出当前目录下的所有文件
 	 *
-	 * @param dir 目录
+	 * @param fileFilterArgs 文件过滤参数
 	 * @return java.util.List<java.lang.String>
 	 * @since 2021/5/7
 	 */
-	List<String> loopFiles(String dir);
+	List<String> loopFiles(FileFilterArgs fileFilterArgs);
 
 }

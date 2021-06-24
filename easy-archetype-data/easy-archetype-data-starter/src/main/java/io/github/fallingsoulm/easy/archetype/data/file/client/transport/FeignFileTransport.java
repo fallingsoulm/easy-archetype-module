@@ -1,6 +1,7 @@
 package io.github.fallingsoulm.easy.archetype.data.file.client.transport;
 
 import cn.hutool.core.lang.Assert;
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.data.file.client.FileClientProperties;
 import io.github.fallingsoulm.easy.archetype.data.file.client.IFileTransport;
 import feign.Client;
@@ -61,8 +62,8 @@ public class FeignFileTransport implements IFileTransport {
 	}
 
 	@Override
-	public List<String> loopFiles(String dir) {
-		return fileFeignApi.loopFiles(dir).getData();
+	public List<String> loopFiles(FileFilterArgs fileFilterArgs) {
+		return fileFeignApi.loopFiles(fileFilterArgs).getData();
 
 	}
 }

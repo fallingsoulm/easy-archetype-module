@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.framework.page.RespEntity;
 import io.github.fallingsoulm.easy.archetype.data.file.client.FileClientProperties;
 import io.github.fallingsoulm.easy.archetype.data.file.client.IFileTransport;
@@ -49,7 +50,7 @@ public class HttpFileTransport implements IFileTransport {
 	private String resultParser(String result) {
 		Assert.notBlank(result, "文件上传异常");
 		RespEntity<String> respEntity = JSON.parseObject(result, RespEntity.class);
-		if (!respEntity.getStatus().equals(RespEntity.SUCCESS_STATUS)) {
+		if (respEntity.getStatus() != RespEntity.SUCCESS_STATUS) {
 			throw new FileException("文件上传失败:" + respEntity.getMsg());
 		}
 		return respEntity.getData();
@@ -65,11 +66,11 @@ public class HttpFileTransport implements IFileTransport {
 	}
 
 	@Override
-	public List<String> loopFiles(String dir) {
+	public List<String> loopFiles(FileFilterArgs fileFilterArgs) {
 		String url = fileClientProperties.getServerHost() + "/file/loopFiles";
 		Map<String, Object> params = new HashMap<>();
-		params.put("dir", dir);
-		String post = HttpUtil.post(url, dir);
+		params.put("fileFilterArgs", fileFilterArgs);
+		String post = HttpUtil.post(url, JSON.toJSONString(fileFilterArgs));
 		return JSON.parseArray(post, String.class);
 	}
 }

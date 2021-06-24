@@ -3,6 +3,8 @@ package io.github.fallingsoulm.easy.archetype.data.file.server.storagestrategy;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.data.file.server.FileServerProperties;
 import io.github.fallingsoulm.easy.archetype.data.file.server.IFileStorageStrategy;
 import io.minio.*;
@@ -56,12 +58,25 @@ public class MinioFileStorageStrategy implements IFileStorageStrategy, Initializ
 
 	@SneakyThrows
 	@Override
-	public List<String> loopFiles(String dir) {
+	public List<String> loopFiles(FileFilterArgs fileFilterArgs) {
 
+		ListObjectsArgs.Builder builder = ListObjectsArgs
+				.builder()
+				.prefix(fileFilterArgs.getPrefix())
+				.bucket(oss.getBucketName())
+				.maxKeys(fileFilterArgs.getSize());
 
-		ListObjectsArgs listObjectsArgs = ListObjectsArgs.builder().prefix(dir).bucket(oss.getBucketName()).build();
+		if (null != fileFilterArgs.getRecursive()) {
+			builder.recursive(fileFilterArgs.getRecursive());
+		}
+		if (StrUtil.isNotBlank(fileFilterArgs.getStartAfter())) {
+			builder.startAfter(fileFilterArgs.getStartAfter());
+		}
+
+		ListObjectsArgs listObjectsArgs = builder.build();
 		List<String> fileNames = new ArrayList<>();
 		Iterable<Result<Item>> results = minioClient.listObjects(listObjectsArgs);
+
 
 		if (CollectionUtil.isEmpty(results)) {
 			return fileNames;

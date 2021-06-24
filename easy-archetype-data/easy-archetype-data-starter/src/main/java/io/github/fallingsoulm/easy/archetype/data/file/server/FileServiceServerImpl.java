@@ -1,7 +1,7 @@
 package io.github.fallingsoulm.easy.archetype.data.file.server;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.data.file.FileInfo;
 import io.github.fallingsoulm.easy.archetype.data.file.IFileService;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +47,8 @@ public class FileServiceServerImpl implements IFileService {
 	}
 
 	@Override
-	public List<String> loopFiles(String dir) {
+	public List<String> loopFiles(FileFilterArgs fileFilterArgs) {
 
-		return fileStorageStrategy.loopFiles(dir);
+		return fileStorageStrategy.loopFiles(fileFilterArgs);
 	}
 }

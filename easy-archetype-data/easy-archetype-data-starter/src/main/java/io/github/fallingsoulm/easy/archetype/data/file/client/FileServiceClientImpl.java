@@ -1,6 +1,7 @@
 package io.github.fallingsoulm.easy.archetype.data.file.client;
 
 import cn.hutool.core.lang.Assert;
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.data.file.IFileService;
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +33,7 @@ public class FileServiceClientImpl implements IFileService {
 	}
 
 	@Override
-	public List<String> loopFiles(String dir) {
-		return fileTransport.loopFiles(dir);
+	public List<String> loopFiles(FileFilterArgs fileFilterArgs) {
+		return fileTransport.loopFiles(fileFilterArgs);
 	}
 }

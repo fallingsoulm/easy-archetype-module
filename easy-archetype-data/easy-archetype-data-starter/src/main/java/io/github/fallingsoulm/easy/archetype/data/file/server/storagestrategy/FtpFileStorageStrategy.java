@@ -2,6 +2,7 @@ package io.github.fallingsoulm.easy.archetype.data.file.server.storagestrategy;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.extra.ftp.Ftp;
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.data.file.exception.FileException;
 import io.github.fallingsoulm.easy.archetype.data.file.server.FileServerProperties;
 import io.github.fallingsoulm.easy.archetype.data.file.server.IFileStorageStrategy;
@@ -50,7 +51,10 @@ public class FtpFileStorageStrategy implements IFileStorageStrategy {
 	}
 
 	@Override
-	public List<String> loopFiles(String dir) {
-		return ftpClient.ls(dir);
+	public List<String> loopFiles(FileFilterArgs fileFilterArgs) {
+
+		return ftpClient.ls(fileFilterArgs.getPrefix());
 	}
+
+
 }

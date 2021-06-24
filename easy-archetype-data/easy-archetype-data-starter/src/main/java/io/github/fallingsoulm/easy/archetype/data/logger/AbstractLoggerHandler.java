@@ -6,7 +6,9 @@ import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.support.BindingAwareModelMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletRequest;
@@ -25,8 +27,8 @@ public abstract class AbstractLoggerHandler implements LoggerHandler {
 
 	@Override
 	public void handler(LoggerVo loggerVo) {
+		Method method = loggerVo.getMethod();
 		// 忽略注解
-		Method method = loggerVo.getMethodSignature().getMethod();
 		Map<String, Object> loggerData = new HashMap<>(16);
 		// 方法名
 		loggerData.put("methodName", method.getDeclaringClass().getName() + "." + method.getName());
@@ -40,12 +42,16 @@ public abstract class AbstractLoggerHandler implements LoggerHandler {
 		loggerData.put("endTime", loggerVo.getEndTime() + "");
 		// 参数
 		loggerData.put("params", null == loggerVo.getArgs() ? null
-				: JSON.toJSONString(getRequestParams(loggerVo.getMethodSignature(), loggerVo.getArgs())));
+				: loggerVo.getArgs());
 		// 方法介绍
-		loggerData.put("desp", getDesp(method));
+		loggerData.put("desp", getDesp(loggerVo.getMethod()));
 		// 头部信息
 		// 耗时
-		loggerData.put("elapsedTime", (loggerVo.getEndTime() - loggerVo.getStartTime()) + "");
+		if (null != loggerVo.getEndTime() && null != loggerVo.getStartTime()) {
+
+			loggerData.put("elapsedTime", (loggerVo.getEndTime() - loggerVo.getStartTime()) + "");
+		}
+
 		// 状态
 		Integer status = 200;
 
@@ -56,57 +62,24 @@ public abstract class AbstractLoggerHandler implements LoggerHandler {
 		loggerData.put("status", status);
 		// 返回结果
 		loggerData.put("result", null != loggerVo.getResult() ? JSON.toJSONString(loggerVo.getResult())
-				: JSON.toJSONString(new Object()));
+				: JSON.toJSONString(new
+
+				Object()));
+
 		handler(loggerVo, loggerData);
+
 	}
 
 	/**
 	 * 结果处理
-	 * @param loggerVo 日志类
+	 *
+	 * @param loggerVo   日志类
 	 * @param loggerData 解析结果
 	 * @return void
 	 * @since 2021/1/23
 	 */
 	protected abstract void handler(LoggerVo loggerVo, Map<String, Object> loggerData);
 
-	/**
-	 * 获取方法参数
-	 * @param methodSignature 方法签名
-	 * @param args 参数
-	 * @return java.util.Map<java.lang.String, java.lang.Object>
-	 * @since 2021/1/23
-	 */
-	protected Map<String, Object> getRequestParams(MethodSignature methodSignature, Object[] args) {
-		Map<String, Object> requestParams = new HashMap<>(16);
-
-		// 参数名
-		String[] paramNames = methodSignature.getParameterNames();
-		if (null == paramNames || paramNames.length == 0) {
-			return new HashMap<>(16);
-		}
-
-		for (int i = 0; i < paramNames.length; i++) {
-			Object value = args[i];
-
-			// 如果是文件对象
-			if (value instanceof MultipartFile) {
-				MultipartFile file = (MultipartFile) value;
-				// 获取文件名
-				value = file.getOriginalFilename();
-			}
-			else if (value instanceof ServletResponse) {
-
-				continue;
-			}
-			else if (value instanceof ServletRequest) {
-
-				continue;
-			}
-
-			requestParams.put(paramNames[i], value);
-		}
-		return requestParams;
-	}
 
 	/**
 	 * 方法介绍分割线
@@ -117,6 +90,7 @@ public abstract class AbstractLoggerHandler implements LoggerHandler {
 
 	/**
 	 * 获取方法介绍
+	 *
 	 * @param method
 	 * @return java.lang.String
 	 * @since 2021/1/23

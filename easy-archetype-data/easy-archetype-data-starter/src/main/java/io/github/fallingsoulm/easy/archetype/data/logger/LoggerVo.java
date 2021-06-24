@@ -9,6 +9,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * 日志类的vo
@@ -23,33 +25,26 @@ import javax.servlet.http.HttpServletRequest;
 public class LoggerVo {
 
 	/**
-	 * 方法签名
+	 * 方法
 	 *
 	 * @since 2021/1/23
 	 */
-	private MethodSignature methodSignature;
+	private Method method;
 
 	/**
-	 * 参数
+	 * 请求参数
 	 *
 	 * @author luyanan
 	 * @since 2021/1/23
 	 */
-	private Object[] args;
-
-	/**
-	 * 注解
-	 *
-	 * @since 2021/1/23
-	 */
-	private ApiOperation apiOperation;
+	private Map<String, Object> args;
 
 	/**
 	 * 抛出的异常
 	 *
 	 * @since 2021/1/23
 	 */
-	private Exception exception;
+	private Throwable exception;
 
 	/**
 	 * 开始时间

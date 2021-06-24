@@ -26,7 +26,7 @@ public class HashFileNameGenerator implements FileNameGenerator {
 	@Override
 	public FileInfo generate(FileInfo fileInfo) {
 		// 根据文件名生成hash
-		int hashGroove = fileServerProperties.getFileName().getHashGroove();
+		int hashGroove = fileServerProperties.getFilename().getHashGroove();
 		String md5 = SecureUtil.md5(IoUtil.toStream(fileInfo.getContent()));
 		int index = Math.abs(md5.hashCode() % hashGroove);
 		fileInfo.setPath(fileInfo.getPath() + "/" + index);

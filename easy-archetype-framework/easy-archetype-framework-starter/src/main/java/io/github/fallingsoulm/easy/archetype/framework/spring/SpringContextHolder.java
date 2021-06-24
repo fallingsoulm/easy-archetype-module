@@ -1,6 +1,7 @@
 package io.github.fallingsoulm.easy.archetype.framework.spring;
 
 import cn.hutool.core.util.StrUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerExecutionChain;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -221,4 +224,29 @@ public class SpringContextHolder extends org.springframework.web.util.WebUtils
 				(AnnotationUtils.findAnnotation(handlerMethod.getBean().getClass(), RestController.class) != null);
 	}
 
+	/**
+	 * 获取HandlerMethod
+	 *
+	 * @param request 请求体
+	 * @return org.springframework.web.method.HandlerMethod
+	 * @since 2021/6/6
+	 */
+	@SneakyThrows
+	public static HandlerMethod getHandlerMethod(HttpServletRequest request) {
+		RequestMappingHandlerMapping requestMappingHandlerMapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
+		Object handler =
+				requestMappingHandlerMapping.getHandler(request).getHandler();
+		return (handler instanceof HandlerMethod) ? (HandlerMethod) handler : null;
+	}
+
+	/**
+	 * 获取HandlerMethod
+	 *
+	 * @return org.springframework.web.method.HandlerMethod
+	 * @since 2021/6/6
+	 */
+	@SneakyThrows
+	public static HandlerMethod getHandlerMethod() {
+		return getHandlerMethod(getRequest());
+	}
 }

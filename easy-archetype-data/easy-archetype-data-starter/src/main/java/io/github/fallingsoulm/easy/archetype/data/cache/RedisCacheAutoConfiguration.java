@@ -1,8 +1,11 @@
 package io.github.fallingsoulm.easy.archetype.data.cache;
 
+import io.github.fallingsoulm.easy.archetype.data.config.EasyArchetypeDataProperties;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
@@ -15,6 +18,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @author luyanan
  * @since 2021/1/24
  **/
+@ConditionalOnBean(annotation = EnableCaching.class)
 @ConditionalOnClass(RedisCacheConfiguration.class)
 @ConditionalOnProperty(value = "spring.cache.type", havingValue = "redis", matchIfMissing = false)
 public class RedisCacheAutoConfiguration {

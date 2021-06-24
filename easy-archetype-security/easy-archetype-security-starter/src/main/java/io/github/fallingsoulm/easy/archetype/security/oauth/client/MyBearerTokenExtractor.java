@@ -31,11 +31,11 @@ public class MyBearerTokenExtractor extends BearerTokenExtractor {
 		String tokenKey = OAuth2AccessToken.ACCESS_TOKEN;
 		// bearer type allows a request parameter as well
 		if (token == null) {
-			log.debug("Token not found in headers. Trying request parameters.");
+//			log.warn("Token not found in headers. Trying request parameters.");
 			token = request.getParameter(tokenKey);
 			if (token == null) {
 				token = ServletUtil.getCookie(request, tokenKey) == null ? null : ServletUtil.getCookie(request, tokenKey).getValue();
-				log.debug("Token not found in request parameters.  Not an OAuth2 request.");
+//				log.warn("Token not found in request parameters.  Not an OAuth2 request.");
 			} else {
 				request.setAttribute(OAuth2AuthenticationDetails.ACCESS_TOKEN_TYPE, OAuth2AccessToken.BEARER_TYPE);
 			}
