@@ -1,10 +1,12 @@
 package io.github.fallingsoulm.easy.archetype.data.file.client;
 
 import cn.hutool.core.lang.Assert;
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.data.file.IFileService;
 import lombok.RequiredArgsConstructor;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * 文件服务客户端的实现
@@ -28,5 +30,10 @@ public class FileServiceClientImpl implements IFileService {
 	public boolean removeFile(String path) {
 		Assert.notBlank(path, "文件路径不能为空");
 		return fileTransport.removeFile(path);
+	}
+
+	@Override
+	public List<String> loopFiles(FileFilterArgs fileFilterArgs) {
+		return fileTransport.loopFiles(fileFilterArgs);
 	}
 }

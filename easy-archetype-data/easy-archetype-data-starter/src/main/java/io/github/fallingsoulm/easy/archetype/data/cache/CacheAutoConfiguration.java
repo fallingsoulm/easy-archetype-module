@@ -1,5 +1,6 @@
 package io.github.fallingsoulm.easy.archetype.data.cache;
 
+import io.github.fallingsoulm.easy.archetype.data.config.EasyArchetypeDataProperties;
 import io.github.fallingsoulm.easy.archetype.framework.config.EasyArchetypeFrameworkProperties;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -16,11 +17,11 @@ import org.springframework.context.annotation.Import;
  * @since 2021/1/21
  **/
 @ConditionalOnBean(annotation = EnableCaching.class)
-@ConditionalOnProperty(prefix = EasyArchetypeFrameworkProperties.PREFIX, name = "cache.enable", havingValue = "true",
+@ConditionalOnProperty(prefix = EasyArchetypeDataProperties.PREFIX, name = "cache.enable", havingValue = "true",
 		matchIfMissing = true)
 @Configuration
 @EnableConfigurationProperties(CacheProperties.class)
-@Import({ io.github.fallingsoulm.easy.archetype.data.cache.CacheConfig.class, io.github.fallingsoulm.easy.archetype.data.cache.RedisCacheAutoConfiguration.class })
+@Import({io.github.fallingsoulm.easy.archetype.data.cache.CacheConfig.class, io.github.fallingsoulm.easy.archetype.data.cache.RedisCacheAutoConfiguration.class})
 public class CacheAutoConfiguration {
 
 }

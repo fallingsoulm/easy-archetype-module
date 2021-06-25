@@ -1,16 +1,22 @@
 package io.github.fallingsoulm.easy.archetype.data.file.server.storagestrategy;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.data.file.server.FileServerProperties;
 import io.github.fallingsoulm.easy.archetype.data.file.server.IFileStorageStrategy;
-import io.minio.MinioClient;
+import io.minio.*;
+import io.minio.messages.Item;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * minno文件存储
@@ -33,21 +39,58 @@ public class MinioFileStorageStrategy implements IFileStorageStrategy, Initializ
 	@Override
 	public String upload(String path, String fileName, InputStream is) {
 		String objectName = (path + "/" + fileName).replace("/+", "/");
-		minioClient.putObject(oss.getBucketName(), objectName, is, is.available(), "application/octet-stream");
+		minioClient.putObject(PutObjectArgs.builder()
+				.bucket(oss.getBucketName())
+				.stream(is, is.available(), -1)
+				.contentType("application/octet-stream")
+				.object(objectName)
+				.build());
 		return objectName;
 	}
 
 	@SneakyThrows
 	@Override
 	public boolean removeFile(String path) {
-		minioClient.removeObject(oss.getBucketName(), path);
+		minioClient.removeObject(RemoveObjectArgs.builder().bucket(oss.getBucketName())
+				.object(path).build());
 		return true;
+	}
+
+	@SneakyThrows
+	@Override
+	public List<String> loopFiles(FileFilterArgs fileFilterArgs) {
+
+		ListObjectsArgs.Builder builder = ListObjectsArgs
+				.builder()
+				.prefix(fileFilterArgs.getPrefix())
+				.bucket(oss.getBucketName())
+				.maxKeys(fileFilterArgs.getSize());
+
+		if (null != fileFilterArgs.getRecursive()) {
+			builder.recursive(fileFilterArgs.getRecursive());
+		}
+		if (StrUtil.isNotBlank(fileFilterArgs.getStartAfter())) {
+			builder.startAfter(fileFilterArgs.getStartAfter());
+		}
+
+		ListObjectsArgs listObjectsArgs = builder.build();
+		List<String> fileNames = new ArrayList<>();
+		Iterable<Result<Item>> results = minioClient.listObjects(listObjectsArgs);
+
+
+		if (CollectionUtil.isEmpty(results)) {
+			return fileNames;
+		}
+		for (Result<Item> result : results) {
+			fileNames.add(result.get().objectName());
+		}
+		return fileNames;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		oss = fileServerProperties.getOss();
 		Assert.notNull(oss, "oss配置不能为空");
-		minioClient = new MinioClient(oss.getEndpoint(), oss.getAccessKey(), oss.getSecretKey());
+		minioClient = MinioClient.builder().endpoint(oss.getEndpoint()).credentials(oss.getAccessKey(), oss.getSecretKey()).build();
 	}
 }

@@ -12,7 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = JobProperties.PREFIX)
 public class JobProperties {
-	public static final String PREFIX = "io.github.fallingsoulm.easy.archetype.job";
+	public static final String PREFIX = "easy.archetype.job";
 
 	/**
 	 * 是否开启

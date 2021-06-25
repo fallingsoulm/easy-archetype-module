@@ -2,6 +2,7 @@ package io.github.fallingsoulm.easy.archetype.data.file.server.storagestrategy;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.extra.ftp.Ftp;
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.data.file.exception.FileException;
 import io.github.fallingsoulm.easy.archetype.data.file.server.FileServerProperties;
 import io.github.fallingsoulm.easy.archetype.data.file.server.IFileStorageStrategy;
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * Ftp文件存储
@@ -47,4 +49,12 @@ public class FtpFileStorageStrategy implements IFileStorageStrategy {
 	public boolean removeFile(String path) {
 		return ftpClient.delFile(path);
 	}
+
+	@Override
+	public List<String> loopFiles(FileFilterArgs fileFilterArgs) {
+
+		return ftpClient.ls(fileFilterArgs.getPrefix());
+	}
+
+
 }

@@ -1,6 +1,7 @@
 package io.github.fallingsoulm.easy.archetype.data.file;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * 文件服务
@@ -32,4 +33,14 @@ public interface IFileService {
 	 * @since 2021/2/22
 	 */
 	boolean removeFile(String path);
+
+	/**
+	 * 列出当前目录下的所有文件
+	 *
+	 * @param fileFilterArgs 文件过滤参数
+	 * @return java.util.List<java.lang.String>
+	 * @since 2021/5/7
+	 */
+	List<String> loopFiles(FileFilterArgs fileFilterArgs);
+
 }

@@ -23,4 +23,5 @@ public class ConfigCenterProperties {
 	 */
 	private Boolean enable;
 
+
 }

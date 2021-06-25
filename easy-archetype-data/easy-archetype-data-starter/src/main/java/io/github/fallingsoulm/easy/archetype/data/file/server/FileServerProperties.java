@@ -21,7 +21,7 @@ public class FileServerProperties {
 	 *
 	 * @since 2021/2/25
 	 */
-	private String storeType;
+	private String storetype;
 
 	/**
 	 * ftp的配置类
@@ -52,7 +52,7 @@ public class FileServerProperties {
 	 * @since 2021/4/17
 	 */
 
-	private FileNameGenerate fileName = new FileNameGenerate();
+	private FileNameGenerate filename = new FileNameGenerate();
 
 
 	/**

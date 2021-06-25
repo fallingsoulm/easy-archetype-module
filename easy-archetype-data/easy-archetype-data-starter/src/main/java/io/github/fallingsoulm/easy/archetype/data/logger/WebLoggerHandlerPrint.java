@@ -26,7 +26,12 @@ public class WebLoggerHandlerPrint extends AbstractLoggerHandler {
 		logger.append("uri:").append(loggerData.get("uri")).append("\n");
 		logger.append("sourceIp:").append(loggerData.get("sourceIp")).append("\n");
 		logger.append("params:").append(loggerData.get("params")).append("\n");
-		logger.append("result:").append(loggerData.get("result")).append("\n");
+		Integer status = (Integer) loggerData.get("status");
+		if (status.equals(200)) {
+			logger.append("result:").append(loggerData.get("result")).append("\n");
+		} else {
+			logger.append("errorMsg:").append(loggerData.get("errorMsg")).append("\n");
+		}
 		logger.append("time:").append(loggerData.get("elapsedTime")).append("\n");
 		logger.append("-----------------------------------------------------]");
 		log.debug(logger.toString());

@@ -26,7 +26,7 @@ public @interface EnableFileServer {
 
 	FileMode mode();
 
-	public enum FileMode {
+	enum FileMode {
 
 		/**
 		 * 服务端, 负责文件存储
@@ -43,5 +43,14 @@ public @interface EnableFileServer {
 
 		CLIENT;
 	}
+
+
+	/**
+	 * 文件host处理
+	 *
+	 * @author Administrator
+	 * @since 2021/6/6
+	 */
+	boolean fileHost() default true;
 
 }

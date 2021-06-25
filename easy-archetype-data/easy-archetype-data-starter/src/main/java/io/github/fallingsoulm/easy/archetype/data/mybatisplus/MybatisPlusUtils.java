@@ -139,7 +139,7 @@ public class MybatisPlusUtils {
 		voPageInfo.setTotalElements(pageInfo.getTotalElements());
 		List<DO> content = pageInfo.getContent();
 
-		List<VO> list = BeanUtils.copyList((List<Object>) content, voClass);
+		List<VO> list = BeanUtils.copyList(content, voClass);
 		if (null != handler && null != list) {
 			handler.handler(list);
 		}

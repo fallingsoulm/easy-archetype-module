@@ -1,12 +1,12 @@
 package io.github.fallingsoulm.easy.archetype.data.file.client.transport;
 
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.framework.page.RespEntity;
 import lombok.SneakyThrows;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 文件Feign接口
@@ -40,4 +40,14 @@ public interface FileFeignApi {
 	 */
 	@GetMapping("remove/{path}")
 	RespEntity removeFile(@PathVariable("path") String path);
+
+	/**
+	 * 列出目录下的所有文件
+	 *
+	 * @param fileFilterArgs 文件过滤参数
+	 * @return java.util.List<java.lang.String>
+	 * @since 2021/5/7
+	 */
+	@PostMapping("loopFiles")
+	RespEntity<List<String>> loopFiles(@RequestBody FileFilterArgs fileFilterArgs);
 }

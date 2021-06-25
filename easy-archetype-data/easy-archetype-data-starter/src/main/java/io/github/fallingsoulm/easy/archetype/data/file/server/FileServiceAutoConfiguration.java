@@ -46,7 +46,7 @@ public class FileServiceAutoConfiguration {
 	 * @since 2021/2/25
 	 */
 	@Bean
-	@ConditionalOnProperty(prefix = FileServerProperties.PREFIX, name = "storeType", havingValue = "ftp", matchIfMissing = false)
+	@ConditionalOnProperty(prefix = FileServerProperties.PREFIX, name = "storetype", havingValue = "ftp", matchIfMissing = false)
 	public IFileStorageStrategy ftpFileStorageStrategy(FileServerProperties fileServerProperties) {
 		return new FtpFileStorageStrategy(fileServerProperties);
 	}
@@ -59,7 +59,7 @@ public class FileServiceAutoConfiguration {
 	 * @since 2021/2/25
 	 */
 	@Bean
-	@ConditionalOnProperty(prefix = FileServerProperties.PREFIX, name = "storeType", havingValue = "ftp", matchIfMissing = false)
+	@ConditionalOnProperty(prefix = FileServerProperties.PREFIX, name = "storetype", havingValue = "minio", matchIfMissing = false)
 	public IFileStorageStrategy minioFileStorageStrategy(FileServerProperties fileServerProperties) {
 		return new MinioFileStorageStrategy(fileServerProperties);
 	}
@@ -76,14 +76,14 @@ public class FileServiceAutoConfiguration {
 		return new FileServiceEndpoint();
 	}
 
-	@ConditionalOnProperty(prefix = FileServerProperties.PREFIX, name = "fileName.type", havingValue = "simple", matchIfMissing = false)
+	@ConditionalOnProperty(prefix = FileServerProperties.PREFIX, name = "filename.type", havingValue = "simple", matchIfMissing = false)
 	@Bean
 	public FileNameGenerator simpleFileNameGenerator() {
 		return new SimpleFileNameGenerator();
 	}
 
 
-	@ConditionalOnProperty(prefix = FileServerProperties.PREFIX, name = "fileName.type", havingValue = "hash", matchIfMissing = true)
+	@ConditionalOnProperty(prefix = FileServerProperties.PREFIX, name = "filename.type", havingValue = "hash", matchIfMissing = true)
 	@Bean
 	public FileNameGenerator hashFileNameGenerator(FileServerProperties fileServerProperties) {
 		return new HashFileNameGenerator(fileServerProperties);

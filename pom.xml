@@ -4,7 +4,7 @@
 	<groupId>io.github.fallingsoulm.easy.archetype</groupId>
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
-	<version>1.1.1</version>
+	<version>1.1.1-SNAPSHOT</version>
 	<artifactId>easy-archetype-module</artifactId>
 
 	<properties>
@@ -33,10 +33,10 @@
 		<kaptcha.version>2.3.2</kaptcha.version>
 		<spring.checkstyle.version>0.0.23</spring.checkstyle.version>
 		<git.commit.version>2.2.5</git.commit.version>
-		<minio.version>3.0.10</minio.version>
+		<minio.version>7.1.0</minio.version>
 		<swagger-annotations.version>1.6.2</swagger-annotations.version>
 		<slf4j-api.version>1.7.30</slf4j-api.version>
-		<newVersion>1.1.1</newVersion>
+		<newVersion>1.1.2-SNAPSHOT</newVersion>
 	</properties>
 
 

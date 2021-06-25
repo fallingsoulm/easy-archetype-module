@@ -1,6 +1,7 @@
 package io.github.fallingsoulm.easy.archetype.data.file.client.transport;
 
 import cn.hutool.core.lang.Assert;
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.data.file.client.FileClientProperties;
 import io.github.fallingsoulm.easy.archetype.data.file.client.IFileTransport;
 import feign.Client;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * 利用Feign进行文件传输
@@ -57,5 +59,11 @@ public class FeignFileTransport implements IFileTransport {
 	@Override
 	public boolean removeFile(String path) {
 		return Boolean.valueOf(this.fileFeignApi.removeFile(path).getData().toString());
+	}
+
+	@Override
+	public List<String> loopFiles(FileFilterArgs fileFilterArgs) {
+		return fileFeignApi.loopFiles(fileFilterArgs).getData();
+
 	}
 }

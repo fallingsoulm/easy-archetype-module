@@ -1,9 +1,11 @@
 package io.github.fallingsoulm.easy.archetype.data.file.server;
 
 import cn.hutool.core.io.IoUtil;
+import io.github.fallingsoulm.easy.archetype.data.file.FileFilterArgs;
 import io.github.fallingsoulm.easy.archetype.data.file.FileInfo;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * 文件存储策略
@@ -35,4 +37,12 @@ public interface IFileStorageStrategy {
 	 */
 	boolean removeFile(String path);
 
+	/**
+	 * 列出当前目录下的所有文件
+	 *
+	 * @param fileFilterArgs 文件过滤参数
+	 * @return java.util.List<java.lang.String>
+	 * @since 2021/5/7
+	 */
+	List<String> loopFiles(FileFilterArgs fileFilterArgs);
 }
