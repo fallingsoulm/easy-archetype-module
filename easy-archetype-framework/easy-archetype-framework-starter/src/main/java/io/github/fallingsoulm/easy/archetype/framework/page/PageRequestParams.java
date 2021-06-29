@@ -1,9 +1,11 @@
 package io.github.fallingsoulm.easy.archetype.framework.page;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -69,6 +71,15 @@ public class PageRequestParams<T> implements Serializable {
 	@Getter
 	@Setter
 	private T params;
+	/**
+	 * 排序
+	 *
+	 * @author luyan
+	 * @since 2021/6/27
+	 */
+	@Getter
+	@Setter
+	List<OrderItem> orders;
 
 	/**
 	 * <p>

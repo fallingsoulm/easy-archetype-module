@@ -29,7 +29,8 @@ import org.springframework.context.annotation.Import;
 		LoggerAutoConfiguration.class,
 		ConfigCenterAutoConfiguration.class,
 		MybatisPlusConfiguration.class,
-		RedisAutoConfiguration.class, CacheAutoConfiguration.class
+		RedisAutoConfiguration.class,
+		CacheAutoConfiguration.class
 })
 public class EasyArchetypeDataAutoConfiguration {
 

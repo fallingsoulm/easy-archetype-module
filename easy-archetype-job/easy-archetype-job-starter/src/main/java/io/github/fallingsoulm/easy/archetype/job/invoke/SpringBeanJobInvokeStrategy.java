@@ -3,8 +3,15 @@ package io.github.fallingsoulm.easy.archetype.job.invoke;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import io.github.fallingsoulm.easy.archetype.framework.spring.SpringContextHolder;
+import io.github.fallingsoulm.easy.archetype.framework.thread.AbstractBusinessThreadInterceptor;
+import io.github.fallingsoulm.easy.archetype.framework.thread.BusinessThreadPoolTaskExecutor;
 import io.github.fallingsoulm.easy.archetype.job.entity.JobVo;
+import io.github.fallingsoulm.easy.archetype.job.exception.JobException;
+import io.github.fallingsoulm.easy.archetype.job.invoke.bean.IJobBeanHandler;
+import io.github.fallingsoulm.easy.archetype.job.invoke.bean.JobRespEntity;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,8 +24,14 @@ import java.util.List;
  * @author luyanan
  * @since 2021/3/18
  **/
+@Slf4j
 public class SpringBeanJobInvokeStrategy implements JobInvokeStrategy {
+
+	@Autowired(required = false)
+	private BusinessThreadPoolTaskExecutor businessThreadPoolTaskExecutor;
+
 	@Override
+
 	public String type() {
 		return "bean";
 	}
@@ -26,17 +39,54 @@ public class SpringBeanJobInvokeStrategy implements JobInvokeStrategy {
 	@SneakyThrows
 	@Override
 	public void invoke(JobVo jobVo) {
-		String invokeTarget = jobVo.getInvokeTarget();
-		String beanName = getBeanName(invokeTarget);
-		String methodName = getMethodName(invokeTarget);
-		List<Object[]> methodParams = getMethodParams(invokeTarget);
-		if (!isValidClassName(beanName)) {
-			Object bean = SpringContextHolder.getBean(beanName);
-			invokeMethod(bean, methodName, methodParams);
-		} else {
-			Object instance = Class.forName(beanName).newInstance();
-			invokeMethod(instance, methodName, methodParams);
+		String beanName = jobVo.getInvokeTarget();
+		Object bean = SpringContextHolder.getBean(beanName);
+		if (null == bean) {
+			throw new JobException("未知的bean:[" + beanName + "]");
 		}
+		if (!(bean instanceof IJobBeanHandler)) {
+			throw new JobException("[" + beanName + "]必须实现接口io.github.fallingsoulm.easy.archetype.job.invoke.bean.IJobBeanHandler");
+		}
+		log.debug("开始执行定时任务id为:{},名称为:{},分组为:{}的定时任务", jobVo.getJobId(), jobVo.getJobName(), jobVo.getJobGroup());
+		IJobBeanHandler jobBeanHandler = (IJobBeanHandler) bean;
+		if (jobBeanHandler.async()) {
+			businessThreadPoolTaskExecutor.execute(() -> {
+				try {
+					doJob(jobVo, jobBeanHandler);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+		} else {
+			doJob(jobVo, jobBeanHandler);
+		}
+
+//		String invokeTarget = jobVo.getInvokeTarget();
+//		String beanName = getBeanName(invokeTarget);
+//		String methodName = getMethodName(invokeTarget);
+//		List<Object[]> methodParams = getMethodParams(invokeTarget);
+//		if (!isValidClassName(beanName)) {
+//			Object bean = SpringContextHolder.getBean(beanName);
+//			invokeMethod(bean, methodName, methodParams);
+//		} else {
+//			Object instance = Class.forName(beanName).newInstance();
+//			invokeMethod(instance, methodName, methodParams);
+//		}
+	}
+
+	private void doJob(JobVo jobVo, IJobBeanHandler jobBeanHandler) throws Exception {
+		JobRespEntity jobRespEntity = jobBeanHandler.execute(jobVo.getParams());
+		if (null == jobRespEntity) {
+			log.error("定时任务id为:{},名称为:{},分组为:{}的定时任务,执行异常,无返回结果", jobVo.getJobId(), jobVo.getJobName(), jobVo.getJobGroup());
+			throw new JobException("定时任务执行异常");
+		}
+		if (JobRespEntity.SUCCESS != jobRespEntity.getStatus()) {
+			log.error("定时任务id为:{},名称为:{},分组为:{}的定时任务,执行异常,异常为:{}", jobVo.getJobId(), jobVo.getJobName()
+					, jobVo.getJobGroup(), jobRespEntity.getErrorMsg());
+			throw new JobException(jobRespEntity.getErrorMsg());
+		}
+		log.debug("定时任务id为:{},名称为:{},分组为:{}的定时任务,执行结束", jobVo.getJobId(), jobVo.getJobName()
+				, jobVo.getJobGroup());
 	}
 
 

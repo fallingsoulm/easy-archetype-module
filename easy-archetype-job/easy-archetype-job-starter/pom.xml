@@ -14,6 +14,11 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>io.github.fallingsoulm.easy.archetype.job.core</groupId>
+			<artifactId>easy-archetype-job-core</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>io.github.fallingsoulm.easy.archetype.security.core</groupId>
 			<artifactId>easy-archetype-security-core</artifactId>
 			<version>${project.parent.version}</version>

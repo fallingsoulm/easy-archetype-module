@@ -20,7 +20,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @ConditionalOnProperty(prefix = EasyArchetypeFrameworkProperties.PREFIX, name = "redis.enable", havingValue = "true",
 		matchIfMissing = true)
 @ConditionalOnClass(RedisConnectionFactory.class)
-@ConditionalOnBean({ RedisConnectionFactory.class, RedisAutoConfiguration.class })
+//@ConditionalOnBean({RedisConnectionFactory.class, org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration.class})
 @Configuration
 public class RedisAutoConfiguration {
 

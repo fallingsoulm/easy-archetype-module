@@ -28,7 +28,7 @@ public abstract class AbstractQuartzJob implements BaseJob {
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 
 		JobVo jobVo = new JobVo();
-		BeanUtils.copyProperties( context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES),jobVo);
+		BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES), jobVo);
 		try {
 			before(context, jobVo);
 			if (null != jobVo) {
@@ -58,6 +58,7 @@ public abstract class AbstractQuartzJob implements BaseJob {
 		logVo.setStartTime(startTime);
 		logVo.setEndTime(new Date());
 		long runMs = logVo.getEndTime().getTime() - logVo.getStartTime().getTime();
+		logVo.setElapsedTime(runMs);
 		logVo.setJobMessage(logVo.getJobName() + " 总共耗时：" + runMs + "毫秒");
 		if (null != e) {
 			logVo.setStatus(ScheduleConstants.FAIL);

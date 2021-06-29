@@ -2,6 +2,7 @@ package io.github.fallingsoulm.easy.archetype.framework.jdbc;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ReflectUtil;
+import io.github.fallingsoulm.easy.archetype.framework.page.OrderItem;
 import io.github.fallingsoulm.easy.archetype.framework.page.PageInfo;
 import io.github.fallingsoulm.easy.archetype.framework.page.PageRequestParams;
 import lombok.SneakyThrows;
@@ -16,6 +17,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * jdbc执行器
@@ -268,10 +270,28 @@ public class JdbcExecutor extends JdbcTemplate {
 	 * @param offset 下标
 	 * @param limit  条数
 	 * @param entity 实体条件
+	 * @param orders 排序条件
 	 * @return io.github.fallingsoulm.easy.archetype.framework.core.page.PageInfo<T>
 	 * @since 2021/3/14
 	 */
-	public <T> PageInfo<T> selectByPage(Integer offset, Integer limit, T entity) {
+	public <T> PageInfo<T> selectByPage(Integer offset,
+										Integer limit, T entity) {
+
+		return selectByPage(offset, limit, entity, null);
+	}
+
+	/**
+	 * 分页查询
+	 *
+	 * @param offset 下标
+	 * @param limit  条数
+	 * @param entity 实体条件
+	 * @param orders 排序条件
+	 * @return io.github.fallingsoulm.easy.archetype.framework.core.page.PageInfo<T>
+	 * @since 2021/3/14
+	 */
+	public <T> PageInfo<T> selectByPage(Integer offset,
+										Integer limit, T entity, List<OrderItem> orders) {
 
 		PageInfo<T> pageInfo = new PageInfo<>();
 		List<T> contentList = new ArrayList<>();
@@ -279,15 +299,33 @@ public class JdbcExecutor extends JdbcTemplate {
 		Integer count = this.selectCount(countWrapper);
 		if (null != count && count > 0) {
 			EntityWrappers.SqlResult sqlResult = getEntityWrappers(entity).getSelectSql();
-			String sql = sqlResult.getSql() + " limit " + offset + "," + limit;
+			String sql = addOrderBySql(sqlResult.getSql(), orders) + " limit " + offset + "," + limit;
+
 			contentList = this.query(sql, new BeanPropertyRowMapper<T>((Class<T>) entity.getClass()), sqlResult.args());
 		}
+
 
 		pageInfo.setContent(contentList);
 		pageInfo.setPageNum((offset / limit) + 1);
 		pageInfo.setPageSize(limit);
 		pageInfo.setTotalElements(Long.valueOf(count));
 		return pageInfo;
+	}
+
+	/**
+	 * 添加排序的SQL
+	 *
+	 * @param sql
+	 * @param orderItems
+	 * @return java.lang.String
+	 * @since 2021/6/27
+	 */
+	private String addOrderBySql(String sql, List<OrderItem> orderItems) {
+
+		if (CollectionUtil.isEmpty(orderItems)) {
+			return sql;
+		}
+		return sql + " ORDER BY " + orderItems.stream().map(a -> a.getColumn() + " " + (a.isAsc() ? "ASC" : "DESC")).collect(Collectors.joining(","));
 	}
 
 
@@ -311,7 +349,8 @@ public class JdbcExecutor extends JdbcTemplate {
 				e.printStackTrace();
 			}
 		}
-		return selectByPage(pageRequestParams.getOffset(), pageRequestParams.getPageSize(), pageRequestParams.getParams());
+
+		return selectByPage(pageRequestParams.getOffset(), pageRequestParams.getPageSize(), pageRequestParams.getParams(), pageRequestParams.getOrders());
 
 	}
 }

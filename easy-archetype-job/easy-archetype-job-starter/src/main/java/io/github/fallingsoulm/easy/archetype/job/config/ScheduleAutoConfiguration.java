@@ -1,6 +1,7 @@
 package io.github.fallingsoulm.easy.archetype.job.config;
 
 import io.github.fallingsoulm.easy.archetype.framework.jdbc.JdbcExecutor;
+import io.github.fallingsoulm.easy.archetype.job.JobInitializingBean;
 import io.github.fallingsoulm.easy.archetype.job.controller.JobController;
 import io.github.fallingsoulm.easy.archetype.job.controller.JobLogController;
 import io.github.fallingsoulm.easy.archetype.job.dao.JobDao;
@@ -12,8 +13,6 @@ import io.github.fallingsoulm.easy.archetype.job.service.JobLogStorageStrategy;
 import io.github.fallingsoulm.easy.archetype.job.service.JobService;
 import io.github.fallingsoulm.easy.archetype.job.service.impl.JdbcJobLogStorageStrategy;
 import io.github.fallingsoulm.easy.archetype.job.service.impl.JobServiceImpl;
-import io.github.fallingsoulm.easy.archetype.job.task.DemoTask;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,11 +26,15 @@ import javax.sql.DataSource;
  * @author luyanan
  * @since 2021/3/20
  **/
-@ConditionalOnProperty(prefix = JobProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = false)
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(JobProperties.class)
 @Import(ScheduleConfig.class)
 public class ScheduleAutoConfiguration {
+
+	@Bean
+	public JobInitializingBean jobInitializingBean() {
+		return new JobInitializingBean();
+	}
 
 	@Bean
 	public JdbcExecutor jdbcExecutor(DataSource dataSource) {
@@ -84,14 +87,4 @@ public class ScheduleAutoConfiguration {
 	}
 
 
-	/**
-	 * 测试的任务
-	 *
-	 * @return io.github.fallingsoulm.easy.archetype.job.task.DemoTask
-	 * @since 2021/4/6
-	 */
-	@Bean("demoTask")
-	public DemoTask demoTask() {
-		return new DemoTask();
-	}
 }

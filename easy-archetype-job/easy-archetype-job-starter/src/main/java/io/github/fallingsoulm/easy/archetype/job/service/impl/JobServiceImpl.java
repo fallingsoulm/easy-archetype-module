@@ -1,15 +1,20 @@
 package io.github.fallingsoulm.easy.archetype.job.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
+import io.github.fallingsoulm.easy.archetype.framework.page.OrderItem;
 import io.github.fallingsoulm.easy.archetype.framework.page.PageInfo;
 import io.github.fallingsoulm.easy.archetype.framework.page.PageRequestParams;
 import io.github.fallingsoulm.easy.archetype.job.constant.ScheduleConstants;
 import io.github.fallingsoulm.easy.archetype.job.dao.JobDao;
 import io.github.fallingsoulm.easy.archetype.job.entity.JobVo;
+import io.github.fallingsoulm.easy.archetype.job.exception.JobException;
 import io.github.fallingsoulm.easy.archetype.job.service.JobService;
 import io.github.fallingsoulm.easy.archetype.job.utils.CronUtils;
 import io.github.fallingsoulm.easy.archetype.job.utils.ScheduleUtils;
 import io.github.fallingsoulm.easy.archetype.security.core.LoginUserService;
+import lombok.SneakyThrows;
 import org.quartz.JobDataMap;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -18,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -49,12 +55,20 @@ public class JobServiceImpl implements JobService {
 		scheduler.clear();
 		List<JobVo> jobVos = jobDao.selectList(new JobVo());
 		for (JobVo jobVo : jobVos) {
+			if (StrUtil.isBlank(jobVo.getCronExpression())) {
+				return;
+			}
 			ScheduleUtils.createScheduleJob(scheduler, jobVo);
 		}
 	}
 
 	@Override
 	public PageInfo<JobVo> page(PageRequestParams<JobVo> pageRequestParams) {
+
+		if (CollectionUtil.isEmpty(pageRequestParams.getOrders())) {
+			// 默认添加根据创建时间排序
+			pageRequestParams.setOrders(Arrays.asList(OrderItem.desc("create_by")));
+		}
 		return jobDao.selectByPage(pageRequestParams);
 	}
 
@@ -70,6 +84,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public int pauseJob(JobVo jobVo) throws SchedulerException {
+		checkBeforeRunJob(jobVo);
 		String jobId = jobVo.getJobId();
 		String jobGroup = jobVo.getJobGroup();
 		jobVo.setStatus(ScheduleConstants.Status.PAUSE.getValue());
@@ -82,6 +97,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public int resumeJob(JobVo jobVo) throws SchedulerException {
+		checkBeforeRunJob(jobVo);
 		jobVo.setStatus(ScheduleConstants.Status.NORMAL.getValue());
 		int row = jobDao.update(jobVo);
 		if (row > 0) {
@@ -110,6 +126,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public int changeStatus(JobVo jobVo) throws SchedulerException {
+		checkBeforeRunJob(jobVo);
 		int rows = 0;
 		String status = jobVo.getStatus();
 		if (status.equals(ScheduleConstants.Status.NORMAL.getValue())) {
@@ -123,6 +140,7 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public void run(JobVo jobVo) throws SchedulerException {
 		JobVo vo = findById(jobVo.getJobId());
+		checkBeforeRunJob(vo);
 		JobDataMap jobDataMap = new JobDataMap();
 		jobDataMap.put(ScheduleConstants.TASK_PROPERTIES, vo);
 		scheduler.triggerJob(ScheduleUtils.getJobKey(jobVo.getJobId(), jobVo.getJobGroup()), jobDataMap);
@@ -131,7 +149,7 @@ public class JobServiceImpl implements JobService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int insertJob(JobVo jobVo) throws SchedulerException {
-		if (null != loginUserService && null != loginUserService.getUserId()) {
+		if (null == jobVo.getCreateBy() && null != loginUserService && null != loginUserService.getUserId()) {
 			Long userId = loginUserService.getUserId();
 			jobVo.setCreateBy(userId + "");
 			jobVo.setUpdateBy(userId + "");
@@ -141,7 +159,7 @@ public class JobServiceImpl implements JobService {
 		jobVo.setJobId(IdUtil.fastSimpleUUID());
 		jobVo.setStatus(ScheduleConstants.Status.PAUSE.getValue());
 		int rows = jobDao.insert(jobVo);
-		if (rows > 0) {
+		if (StrUtil.isNotBlank(jobVo.getCronExpression()) && rows > 0) {
 			ScheduleUtils.createScheduleJob(scheduler, jobVo);
 		}
 		return rows;
@@ -151,19 +169,14 @@ public class JobServiceImpl implements JobService {
 	@Transactional(rollbackFor = Exception.class)
 	public int updateJob(JobVo jobVo) throws SchedulerException {
 		jobVo.setStatus(ScheduleConstants.Status.PAUSE.getValue());
-		if (null != loginUserService && null != loginUserService.getUserId()) {
+		if (null == jobVo.getUpdateBy() && null != loginUserService && null != loginUserService.getUserId()) {
 			Long userId = loginUserService.getUserId();
 			jobVo.setUpdateBy(userId + "");
 		}
 		jobVo.setUpdateTime(new Date());
 		int rows = jobDao.update(jobVo);
-		if (rows > 0) {
-			JobKey jobKey = ScheduleUtils.getJobKey(jobVo.getJobId(), jobVo.getJobGroup());
-			if (scheduler.checkExists(jobKey)) {
-				// 防止创建时存在数据问题,先移除,然后再执行创建
-				scheduler.deleteJob(jobKey);
-			}
-			ScheduleUtils.createScheduleJob(scheduler, jobVo);
+		if (StrUtil.isNotBlank(jobVo.getCronExpression()) && rows > 0) {
+			checkBeforeRunJob(jobVo);
 
 		}
 		return rows;
@@ -172,5 +185,52 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public boolean checkCronExpressionIsValid(String cronExpression) {
 		return CronUtils.isValid(cronExpression);
+	}
+
+	@Override
+	public void saveOrUpdateBeanJob(List<JobVo> jobVos) throws SchedulerException {
+
+		if (CollectionUtil.isEmpty(jobVos)) {
+			return;
+		}
+		for (JobVo jobVo : jobVos) {
+			//TODO 这里将要做根据项目名做唯一去重标识来着
+			List<JobVo> jobVoList = this.jobDao.selectList(JobVo.builder().jobGroup(jobVo.getJobGroup())
+					.invokeType("bean")
+					.invokeTarget(jobVo.getInvokeTarget())
+					.build());
+			if (CollectionUtil.isEmpty(jobVoList)) {
+				insertJob(jobVo);
+			}
+//			else {
+//				jobVo.setJobId(jobVoList.get(0).getJobId());
+//				updateJob(jobVo);
+//			}
+
+		}
+	}
+
+	/**
+	 * 在执行任务之前检查
+	 *
+	 * @param jobVo
+	 * @return void
+	 * @since 2021/6/27
+	 */
+	@SneakyThrows
+	public void checkBeforeRunJob(JobVo jobVo) {
+		if (null == jobVo) {
+			throw new JobException("定时任务不能为空");
+		}
+		if (StrUtil.isBlank(jobVo.getCronExpression())) {
+			throw new JobException("定时任务的cron表达式不能为空");
+		}
+		JobKey jobKey = ScheduleUtils.getJobKey(jobVo.getJobId(), jobVo.getJobGroup());
+		if (scheduler.checkExists(jobKey)) {
+			// 防止创建时存在数据问题,先移除,然后再执行创建
+			scheduler.deleteJob(jobKey);
+		}
+		ScheduleUtils.createScheduleJob(scheduler, jobVo);
+
 	}
 }

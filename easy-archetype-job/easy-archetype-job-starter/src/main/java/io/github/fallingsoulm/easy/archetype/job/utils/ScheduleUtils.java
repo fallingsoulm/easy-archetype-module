@@ -1,5 +1,6 @@
 package io.github.fallingsoulm.easy.archetype.job.utils;
 
+import cn.hutool.core.util.StrUtil;
 import io.github.fallingsoulm.easy.archetype.job.constant.ScheduleConstants;
 import io.github.fallingsoulm.easy.archetype.job.entity.JobVo;
 import io.github.fallingsoulm.easy.archetype.job.exception.JobException;
@@ -60,12 +61,16 @@ public class ScheduleUtils {
 	 * @since 2021/3/18
 	 */
 	public static void createScheduleJob(Scheduler scheduler, JobVo jobVo) throws SchedulerException {
+		if (StrUtil.isBlank(jobVo.getCronExpression())) {
+			throw new JobException("cron表达式不能为空");
+		}
 		Class<? extends Job> jobClass = getQuartzJobClass(jobVo);
 		// 构建job信息
 		String jobId = jobVo.getJobId();
 		String jobGroup = jobVo.getJobGroup();
 		JobKey jobKey = getJobKey(jobId, jobGroup);
 		JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(jobKey).build();
+
 
 		// 表达式调度构建器
 		CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(jobVo.getCronExpression());

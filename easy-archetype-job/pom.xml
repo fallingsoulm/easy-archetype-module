@@ -11,7 +11,8 @@
 	<description>定时任务模块</description>
 	<modules>
 		<module>easy-archetype-job-starter</module>
-	</modules>
+        <module>easy-archetype-job-core</module>
+    </modules>
 	<groupId>io.github.fallingsoulm.easy.archetype.job</groupId>
 	<artifactId>easy-archetype-job</artifactId>
 

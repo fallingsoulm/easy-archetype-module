@@ -77,7 +77,6 @@ public interface JobService {
 	 * 批量删除任务
 	 *
 	 * @param jobs 任务id集合
-	 * @return void
 	 * @since 2021/3/20
 	 */
 	void deleteJobByIds(String[] jobs) throws SchedulerException;
@@ -130,5 +129,15 @@ public interface JobService {
 	 * @since 2021/3/20
 	 */
 	boolean checkCronExpressionIsValid(String cronExpression);
+
+
+	/**
+	 * 添加或者修改定时任务
+	 *
+	 * @param jobVos 定时任务列表
+	 * @return void
+	 * @since 2021/6/26
+	 */
+	void saveOrUpdateBeanJob(List<JobVo> jobVos) throws SchedulerException;
 
 }

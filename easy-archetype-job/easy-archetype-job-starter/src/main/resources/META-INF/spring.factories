@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.fallingsoulm.easy.archetype.job.config.ScheduleAutoConfiguration
-

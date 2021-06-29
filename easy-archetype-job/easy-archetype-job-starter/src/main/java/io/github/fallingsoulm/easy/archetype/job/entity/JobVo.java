@@ -3,7 +3,10 @@ package io.github.fallingsoulm.easy.archetype.job.entity;
 import io.github.fallingsoulm.easy.archetype.framework.jdbc.FieldType;
 import io.github.fallingsoulm.easy.archetype.framework.jdbc.annotation.TableId;
 import io.github.fallingsoulm.easy.archetype.framework.jdbc.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,6 +19,9 @@ import java.util.Date;
  **/
 @TableName("j_job")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobVo implements Serializable {
 
 	private static final long serialVersionUID = 6261541571820467080L;
@@ -63,6 +69,13 @@ public class JobVo implements Serializable {
 	private String invokeTarget;
 
 
+	/**
+	 * 参数
+	 *
+	 * @author luyan
+	 * @since 2021/6/27
+	 */
+	private String params;
 	/**
 	 * cron表达式
 	 *
