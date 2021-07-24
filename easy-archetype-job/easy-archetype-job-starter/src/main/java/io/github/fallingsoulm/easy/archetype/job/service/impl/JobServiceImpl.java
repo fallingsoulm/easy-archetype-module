@@ -67,7 +67,7 @@ public class JobServiceImpl implements JobService {
 
 		if (CollectionUtil.isEmpty(pageRequestParams.getOrders())) {
 			// 默认添加根据创建时间排序
-			pageRequestParams.setOrders(Arrays.asList(OrderItem.desc("create_by")));
+			pageRequestParams.setOrders(Arrays.asList(OrderItem.desc("create_time")));
 		}
 		return jobDao.selectByPage(pageRequestParams);
 	}

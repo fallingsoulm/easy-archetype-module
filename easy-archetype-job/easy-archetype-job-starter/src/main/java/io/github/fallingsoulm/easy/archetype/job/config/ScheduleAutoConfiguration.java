@@ -1,6 +1,8 @@
 package io.github.fallingsoulm.easy.archetype.job.config;
 
 import io.github.fallingsoulm.easy.archetype.framework.jdbc.JdbcExecutor;
+import io.github.fallingsoulm.easy.archetype.framework.jdbc.JdbcGlobalConfig;
+import io.github.fallingsoulm.easy.archetype.framework.jdbc.annotation.FieldStrategy;
 import io.github.fallingsoulm.easy.archetype.job.JobInitializingBean;
 import io.github.fallingsoulm.easy.archetype.job.controller.JobController;
 import io.github.fallingsoulm.easy.archetype.job.controller.JobLogController;
@@ -39,6 +41,9 @@ public class ScheduleAutoConfiguration {
 	@Bean
 	public JdbcExecutor jdbcExecutor(DataSource dataSource) {
 		JdbcExecutor jdbcExecutor = new JdbcExecutor();
+		JdbcGlobalConfig jdbcGlobalConfig = new JdbcGlobalConfig();
+		jdbcGlobalConfig.setUpdateStrategy(FieldStrategy.DEFAULT);
+		jdbcExecutor.jdbcGlobalConfig(jdbcGlobalConfig);
 		jdbcExecutor.setDataSource(dataSource);
 		return jdbcExecutor;
 	}

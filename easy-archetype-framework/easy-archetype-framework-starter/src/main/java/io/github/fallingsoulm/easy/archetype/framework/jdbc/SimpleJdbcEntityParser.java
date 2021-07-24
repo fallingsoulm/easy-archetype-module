@@ -43,7 +43,7 @@ public class SimpleJdbcEntityParser<T> implements JdbcEntityParser<T> {
 
 	@Override
 	public Map<String, Object> getFieldByStrategy(List<EntityFieldInfo> entity, FieldStrategy fieldStrategy, boolean ignoreId) {
-		if (null == entity || fieldStrategy.equals(FieldStrategy.DEFAULT)) {
+		if (null == entity) {
 			return null;
 		}
 		Map<String, Object> fields = new HashMap<>(16);
@@ -53,6 +53,9 @@ public class SimpleJdbcEntityParser<T> implements JdbcEntityParser<T> {
 				continue;
 			}
 			Object fieldValue = entityFieldInfo.getFieldValue();
+			if (fieldStrategy.equals(FieldStrategy.DEFAULT)) {
+				fields.put(entityFieldInfo.getJdbcField(), fieldValue);
+			}
 			if (fieldStrategy.equals(FieldStrategy.NOT_NULL)) {
 				if (null != fieldValue) {
 					fields.put(entityFieldInfo.getJdbcField(), fieldValue);

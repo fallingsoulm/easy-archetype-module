@@ -33,13 +33,13 @@ public class CacheManageImpl<M extends BaseMapperPlus<T>, T> extends AbstractMan
 	@Cacheable(sync = true)
 	@Override
 	public PageInfo<T> listByPage(PageRequestParams<T> pageRequestParams) {
-		return toPageInfo(pageRequestParams, queryWrapper(pageRequestParams.getParams()));
+		return toPageInfo(pageRequestParams, lambdaQueryWrapper(pageRequestParams.getParams()));
 	}
 
 	@Cacheable(sync = true)
 	@Override
 	public List<T> list(T entity) {
-		return this.list(queryWrapper(entity));
+		return this.list(lambdaQueryWrapper(entity));
 	}
 
 	@Cacheable(sync = true)
@@ -54,7 +54,7 @@ public class CacheManageImpl<M extends BaseMapperPlus<T>, T> extends AbstractMan
 	@Cacheable(sync = true)
 	@Override
 	public T findOne(T entity) {
-		return this.getOne(queryWrapper(entity), false);
+		return this.getOne(lambdaQueryWrapper(entity), false);
 	}
 
 	@CacheEvict(allEntries = true)
@@ -82,7 +82,7 @@ public class CacheManageImpl<M extends BaseMapperPlus<T>, T> extends AbstractMan
 	@CacheEvict(allEntries = true)
 	@Override
 	public boolean update(T entity, T conditions) {
-		return this.update(entity, updateWrapper(conditions));
+		return this.update(entity, lambdaUpdateWrapper(conditions));
 	}
 
 	@CacheEvict(allEntries = true)
@@ -106,13 +106,13 @@ public class CacheManageImpl<M extends BaseMapperPlus<T>, T> extends AbstractMan
 	@CacheEvict(allEntries = true)
 	@Override
 	public boolean delete(T entity) {
-		return this.remove(updateWrapper(entity));
+		return this.remove(lambdaQueryWrapper(entity));
 	}
 
 	@CacheEvict(allEntries = true)
 	@Override
 	public Integer count(T entity) {
-		return this.count(queryWrapper(entity));
+		return this.count(lambdaQueryWrapper(entity));
 	}
 
 }

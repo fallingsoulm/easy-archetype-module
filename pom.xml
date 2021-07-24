@@ -37,6 +37,7 @@
 		<swagger-annotations.version>1.6.2</swagger-annotations.version>
 		<slf4j-api.version>1.7.30</slf4j-api.version>
 		<newVersion>1.1.2-SNAPSHOT</newVersion>
+		<elasticsearch.version>7.6.2</elasticsearch.version>
 	</properties>
 
 

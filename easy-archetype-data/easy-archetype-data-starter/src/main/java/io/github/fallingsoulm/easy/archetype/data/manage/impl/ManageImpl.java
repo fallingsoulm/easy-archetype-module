@@ -28,12 +28,12 @@ public class ManageImpl<M extends BaseMapperPlus<T>, T> extends AbstractManageIm
 
 	@Override
 	public PageInfo<T> listByPage(PageRequestParams<T> pageRequestParams) {
-		return toPageInfo(pageRequestParams, queryWrapper(pageRequestParams.getParams()));
+		return toPageInfo(pageRequestParams, lambdaQueryWrapper(pageRequestParams.getParams()));
 	}
 
 	@Override
 	public List<T> list(T entity) {
-		return this.list(queryWrapper(entity));
+		return this.list(lambdaQueryWrapper(entity));
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class ManageImpl<M extends BaseMapperPlus<T>, T> extends AbstractManageIm
 
 	@Override
 	public T findOne(T entity) {
-		return this.getOne(queryWrapper(entity), false);
+		return this.getOne(lambdaQueryWrapper(entity), false);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class ManageImpl<M extends BaseMapperPlus<T>, T> extends AbstractManageIm
 
 	@Override
 	public boolean update(T entity, T conditions) {
-		return this.update(entity, updateWrapper(conditions));
+		return this.update(entity, lambdaUpdateWrapper(conditions));
 	}
 
 	@Override
@@ -93,12 +93,12 @@ public class ManageImpl<M extends BaseMapperPlus<T>, T> extends AbstractManageIm
 
 	@Override
 	public boolean delete(T entity) {
-		return this.remove(updateWrapper(entity));
+		return this.remove(lambdaQueryWrapper(entity));
 	}
 
 	@Override
 	public Integer count(T entity) {
-		return Optional.ofNullable(this.count(queryWrapper(entity))).orElse(0);
+		return Optional.ofNullable(this.count(lambdaQueryWrapper(entity))).orElse(0);
 	}
 
 }

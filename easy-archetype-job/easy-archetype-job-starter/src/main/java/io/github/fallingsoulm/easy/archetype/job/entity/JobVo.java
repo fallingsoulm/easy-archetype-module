@@ -1,6 +1,7 @@
 package io.github.fallingsoulm.easy.archetype.job.entity;
 
 import io.github.fallingsoulm.easy.archetype.framework.jdbc.FieldType;
+import io.github.fallingsoulm.easy.archetype.framework.jdbc.annotation.TableField;
 import io.github.fallingsoulm.easy.archetype.framework.jdbc.annotation.TableId;
 import io.github.fallingsoulm.easy.archetype.framework.jdbc.annotation.TableName;
 import lombok.AllArgsConstructor;
