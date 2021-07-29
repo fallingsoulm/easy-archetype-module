@@ -33,9 +33,12 @@ public abstract class AbstractLoggerHandler implements LoggerHandler {
 		// 方法名
 		loggerData.put("methodName", method.getDeclaringClass().getName() + "." + method.getName());
 		// 请求url
-		loggerData.put("uri", loggerVo.getRequest().getRequestURI());
-		// 来源ip
-		loggerData.put("sourceIp", ServletUtil.getClientIPByHeader(loggerVo.getRequest()));
+		if (loggerVo.getRequest() != null) {
+			loggerData.put("uri", loggerVo.getRequest().getRequestURI());
+			// 来源ip
+			loggerData.put("sourceIp", ServletUtil.getClientIPByHeader(loggerVo.getRequest()));
+		}
+
 		// 开始时间
 		loggerData.put("startTime", loggerVo.getStartTime() + "");
 		// 结束时间

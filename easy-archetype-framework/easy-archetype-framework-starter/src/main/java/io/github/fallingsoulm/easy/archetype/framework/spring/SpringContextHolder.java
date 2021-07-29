@@ -134,6 +134,9 @@ public class SpringContextHolder extends org.springframework.web.util.WebUtils
 	 * @since 2021/1/23
 	 */
 	public static HttpServletRequest getRequest() {
+		if (null == RequestContextHolder.getRequestAttributes()) {
+			return null;
+		}
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
 		return null == request ? null : request;
