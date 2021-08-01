@@ -60,18 +60,6 @@ public class SpringBeanJobInvokeStrategy implements JobInvokeStrategy {
 		} else {
 			doJob(jobVo, jobBeanHandler);
 		}
-
-//		String invokeTarget = jobVo.getInvokeTarget();
-//		String beanName = getBeanName(invokeTarget);
-//		String methodName = getMethodName(invokeTarget);
-//		List<Object[]> methodParams = getMethodParams(invokeTarget);
-//		if (!isValidClassName(beanName)) {
-//			Object bean = SpringContextHolder.getBean(beanName);
-//			invokeMethod(bean, methodName, methodParams);
-//		} else {
-//			Object instance = Class.forName(beanName).newInstance();
-//			invokeMethod(instance, methodName, methodParams);
-//		}
 	}
 
 	private void doJob(JobVo jobVo, IJobBeanHandler jobBeanHandler) throws Exception {
